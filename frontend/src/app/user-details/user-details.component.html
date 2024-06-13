@@ -1,0 +1,150 @@
+<div class="container my-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-title fw-bold mb-0">Users Data</div>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addNewUser">Add New User</button>
+        </div>    
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-secondary d-flex align-items-center justify-content-between">
+            <div class="card-title text-light mb-0">Users</div>
+            <div class="searchbox d-flex">
+                <input class="form-control" type="search" [(ngModel)]="searchTerm" >
+                <button class="btn btn-primary ms-2" (click)="searchUsers()">Search</button>
+            </div>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+        <div class="card-body p-0 ">
+            <div class="table-responsive ">
+                <table class="table mb-0 table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th (click)="sort('name')">Name</th>
+                            <th (click)="sort('age')">Age</th>
+                            <th (click)="sort('email')">Email</th>
+                            <th (click)="sort('phone')">Phone</th>
+                            <th>Manage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of filteredUsers | paginate: {itemsPerPage: 5, currentPage: page}" >
+                            <td><a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="text-primary" (click)="editModal(user)">{{user.name}}</a></td>
+                            <td>{{user.age}}</td>
+                            <td>{{user.email}}  </td>
+                            <td>{{user.phone}}</td>
+                            <td>
+                                <div class="text-nowrap">
+                                    <button class="btn btn-sm mx-1 btn-outline-danger" (click)="deleteUser(user._id)"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-outline-warning" (click)="editModal(user)" data-bs-toggle="modal" data-bs-target="#EditUser"><i class="fa-solid fa-edit"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add New User -->
+<div class="modal fade" id="addNewUser" tabindex="-1" aria-labelledby="addNewUser" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addNewUser">Add New User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <label class="form-label">Full Name</label>
+                    <input [(ngModel)]="name" value="" class="form-control"  type="text" >
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Age</label>
+                    <input [(ngModel)]="age" value="" class="form-control"  type="number" >
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Email</label>
+                    <input [(ngModel)]="email" value="" class="form-control"  type="email" >
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Phone No.</label>
+                    <input [(ngModel)]="phone" value="" class="form-control"  type="number" >
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Profile Image</label>
+                    <input class="form-control" type="file" (change)="onFileSelected($event)">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="AddNewUser()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Edit user -->
+  <div class="modal fade" id="EditUser" tabindex="-1" aria-labelledby="EditUser" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+      <div class="modal-content" *ngIf="selectedUser">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="EditUser">Edit User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row" >
+                <div class="col-lg-4">
+                    <label class="form-label">Full Name</label>
+                    <input [(ngModel)]="selectedUser.name" class="form-control" type="text">
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Age</label>
+                    <input [(ngModel)]="selectedUser.age" class="form-control" type="number">
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Email</label>
+                    <input [(ngModel)]="selectedUser.email" class="form-control" type="email">
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Phone No.</label>
+                    <input [(ngModel)]="selectedUser.phone" class="form-control" type="number">
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label">Profile Image</label>
+                    <input class="form-control" type="file" (change)="onFileSelected($event)">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="editUser()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">Profile</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" *ngIf="selectedUser">
+            <div class="row align-items-center" >
+                <div class="col-lg-4">
+                    <div class="profile ">
+                        <img class="img-fluid profile-img rounded-pill border shadow-sm" src="http://localhost:5000/images/{{selectedUser.profileImage}}" />
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h5><b class="fw-bold">Name :</b> {{selectedUser.name}}</h5>
+                    <h5><b class="fw-bold">Email :</b> {{selectedUser.email}}</h5>
+                    <h5><b class="fw-bold">Phone :</b> {{selectedUser.phone}}</h5>
+                </div>
+            </div>  
+        </div>
+  </div>

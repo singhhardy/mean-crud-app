@@ -1,0 +1,30 @@
+.ngx-pagination{
+    margin-bottom: 0 !important;
+}
+
+.ngx-pagination .current{
+    background: grey !important;
+    border-radius: 5px;
+}
+
+.ngx-pagination li:hover{
+    color: #000;
+    border-radius: 5px;
+}
+a{
+    cursor: pointer;
+}
+
+.profile-img{
+    max-width: 250px !important;
+}
+
+#offcanvasRight{
+    width: 50%;
+}
+
+@media(max-width: 900px){
+    #offcanvasRight{
+        width: 100%;
+    }
+}

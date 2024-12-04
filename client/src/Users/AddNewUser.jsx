@@ -9,7 +9,7 @@ const AddNewUser = () => {
         age: '',
         email: '',
         phone: '',
-        profileImage: null 
+        profileImage: null
     });
 
     const handleChange = (e) => {
@@ -25,26 +25,14 @@ const AddNewUser = () => {
         setUserData({
             ...userData,
             profileImage: e.target.files[0]
-        })
-    }
-
-    const handleSubmit = () => {
-        const formData = new FormData();
-        formData.append('name', userData.name);
-        formData.append('age', userData.age);
-        formData.append('email', userData.email);
-        formData.append('phone', userData.phone);
-        formData.append('profileImage', userData.profileImage);
-        newUser(userData); 
-        setUserData({
-            name: '',
-            age: '',
-            email: '',
-            phone: '',
-            profileImage: null
         });
     };
 
+    const handleSubmit = () => {
+        console.log(userData);
+
+        
+    };
 
     return (
         <>
@@ -79,7 +67,7 @@ const AddNewUser = () => {
                                 </div>
                                 <div className='col-lg-4'>
                                     <label className='form-label'>Profile Image</label>
-                                    <input className='form-control' type='file' onChange={handleFileChange} />
+                                    <input className='form-control' name="img" accept="image/*" type='file' onChange={handleFileChange} />
                                 </div>
                             </div>
                         </div>

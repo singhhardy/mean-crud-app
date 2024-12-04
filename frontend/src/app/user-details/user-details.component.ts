@@ -36,6 +36,13 @@ export class UserDetailsComponent implements OnInit {
       })
   }
 
+  resetSearch(){
+    this.userService.getAllUsers().subscribe(users => {
+      this.users = users
+      this.filteredUsers = users
+    })
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {

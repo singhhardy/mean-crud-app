@@ -14,6 +14,7 @@
             <div class="searchbox d-flex">
                 <input class="form-control" type="search" [(ngModel)]="searchTerm" >
                 <button class="btn btn-primary ms-2" (click)="searchUsers()">Search</button>
+                <button class="btn btn-primary ms-2" (click)="resetSearch()">Reset</button>
             </div>
             <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
         </div>
@@ -33,7 +34,7 @@
                         <tr *ngFor="let user of filteredUsers | paginate: {itemsPerPage: 5, currentPage: page}" >
                             <td><a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="text-primary" (click)="editModal(user)">{{user.name}}</a></td>
                             <td>{{user.age}}</td>
-                            <td>{{user.email}}  </td>
+                            <td>{{user.email}} </td>
                             <td>{{user.phone}}</td>
                             <td>
                                 <div class="text-nowrap">

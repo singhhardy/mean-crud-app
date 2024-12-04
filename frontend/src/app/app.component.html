@@ -1,8 +1,13 @@
 <!-- As a heading -->
 <nav class="navbar bg-dark navbar-dark">
   <div class="container">
-    <span class="navbar-brand mb-0 h1">MEAN CRUD</span>
+    <span class="navbar-brand mb-0 h1">
+      <a [routerLink]="'/'" class="text-light text-decoration-none">MEAN CRUD</a>
+    </span>
+    <div class="float-end">
+      <a class="nav-link text-light" [routerLink]="'/About'">About</a>
+    </div>
   </div>
 </nav>
 
-<app-user-details></app-user-details>
+<router-outlet></router-outlet>

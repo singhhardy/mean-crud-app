@@ -40,6 +40,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getAllUsers().subscribe(users => {
       this.users = users
       this.filteredUsers = users
+      this.searchTerm = ''
     })
   }
 
